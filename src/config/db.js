@@ -3,6 +3,19 @@ import { MongoClient } from "mongodb";
 let client;
 let dbPromise;
 
+async function ensureIndexes(db) {
+  try {
+    await db
+      .collection("equipment")
+      .createIndexes([
+        { key: { ownerId: 1, createdAt: -1 } },
+        { key: { status: 1, createdAt: -1 } },
+      ]);
+  } catch (err) {
+    console.error("Could not create indexes:", err.message);
+  }
+}
+
 // One shared connection, opened on the first request and reused afterwards.
 // This works locally and on Vercel (serverless).
 export function getDb() {
@@ -15,9 +28,11 @@ export function getDb() {
     client = new MongoClient(uri);
     dbPromise = client
       .connect()
-      .then(() => {
+      .then(async () => {
+        const db = client.db(dbName);
+        await ensureIndexes(db);
         console.log(`Connected to MongoDB (${dbName})`);
-        return client.db(dbName);
+        return db;
       })
       .catch((err) => {
         dbPromise = undefined; // allow a retry on the next request
