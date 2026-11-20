@@ -3,6 +3,8 @@ import cors from "cors";
 import "dotenv/config";
 import { getDb } from "./src/config/db.js";
 import { notFound, errorHandler } from "./src/middleware/errorHandler.js";
+import usersRoutes from "./src/routes/users.routes.js";
+import checkRoutes from "./src/routes/check.routes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -48,7 +50,9 @@ app.get("/api/health", async (req, res, next) => {
 });
 
 // Feature routes are added here in the next steps
-
+// Feature routes
+app.use("/api/users", usersRoutes);
+app.use("/api/check", checkRoutes); // temporary, removed after Step 4
 app.use(notFound);
 app.use(errorHandler);
 
