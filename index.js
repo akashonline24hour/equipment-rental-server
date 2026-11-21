@@ -5,7 +5,6 @@ import { getDb } from "./src/config/db.js";
 import { notFound, errorHandler } from "./src/middleware/errorHandler.js";
 import adminRoutes from "./src/routes/admin.routes.js";
 import usersRoutes from "./src/routes/users.routes.js";
-import checkRoutes from "./src/routes/check.routes.js";
 import equipmentRoutes from "./src/routes/equipment.routes.js";
 
 const app = express();
@@ -56,7 +55,6 @@ app.get("/api/health", async (req, res, next) => {
 app.use("/api/users", usersRoutes);
 app.use("/api/equipment", equipmentRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/check", checkRoutes); // temporary, removed after Step 4
 app.use(notFound);
 app.use(errorHandler);
 
