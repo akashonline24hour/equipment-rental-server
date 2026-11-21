@@ -6,3 +6,11 @@ export function toObjectId(id) {
     ? new ObjectId(id)
     : null;
 }
+
+// Better Auth may store user ids as ObjectId or as text, so match both.
+// Returns null when the id is not valid.
+export function idFilter(id) {
+  const objectId = toObjectId(id);
+  if (!objectId) return null;
+  return { $or: [{ _id: objectId }, { _id: id }] };
+}
