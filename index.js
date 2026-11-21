@@ -6,6 +6,7 @@ import { notFound, errorHandler } from "./src/middleware/errorHandler.js";
 import adminRoutes from "./src/routes/admin.routes.js";
 import usersRoutes from "./src/routes/users.routes.js";
 import equipmentRoutes from "./src/routes/equipment.routes.js";
+import reviewsRoutes from "./src/routes/reviews.routes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -55,6 +56,7 @@ app.get("/api/health", async (req, res, next) => {
 app.use("/api/users", usersRoutes);
 app.use("/api/equipment", equipmentRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/reviews", reviewsRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
