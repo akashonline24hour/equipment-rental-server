@@ -44,6 +44,12 @@ export default async function verifyToken(req, res, next) {
       return res.status(401).json({ message: "Account not found" });
     }
 
+    if (user.blocked === true) {
+      return res.status(403).json({
+        message: "Your account has been blocked. Please contact support.",
+      });
+    }
+
     req.user = {
       id: String(user._id),
       email: user.email,
